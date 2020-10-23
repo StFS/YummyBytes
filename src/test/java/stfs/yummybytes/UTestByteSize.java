@@ -21,6 +21,7 @@ import org.junit.Test;
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class UTestByteSize {
     @Test
@@ -70,6 +71,12 @@ public class UTestByteSize {
             }
         }
     }
+    @Test
+    public void testNonEquality() {
+        assertNotEquals(new ByteSize(1, ByteSizeUnit.MEGABYTES), new ByteSize(1, ByteSizeUnit.KILOBYTES));
+        assertNotEquals(new ByteSize(1, ByteSizeUnit.BYTES), new ByteSize(1, ByteSizeUnit.KILOBYTES));
+        assertNotEquals(new ByteSize(1, ByteSizeUnit.KILOBYTES), new ByteSize(1, ByteSizeUnit.KIBIBYTES));
+    }
 
     @Test
     public void testConversion() {
@@ -85,5 +92,19 @@ public class UTestByteSize {
     public void testEquality() {
         assertEquals(new ByteSize(500, ByteSizeUnit.MEGABYTES), new ByteSize(0.5, ByteSizeUnit.GIGABYTES));
         assertEquals(new ByteSize(500, ByteSizeUnit.MEBIBYTES), new ByteSize("0.48828125", ByteSizeUnit.GIBIBYTES));
+    }
+
+    @Test
+    public void testStringConversion() {
+        assertEquals(ByteSize.from("1 megabyte"), new ByteSize(1, ByteSizeUnit.MEGABYTES));
+        assertEquals(ByteSize.from("14 megabytes"), new ByteSize(14, ByteSizeUnit.MEGABYTES));
+        assertEquals(ByteSize.from("14.2 exabytes"), new ByteSize(14.2, ByteSizeUnit.EXABYTES));
+
+        assertEquals(ByteSize.from("5 kib"), new ByteSize(5, ByteSizeUnit.KIBIBYTES));
+        assertEquals(ByteSize.from("5 kib"), new ByteSize(5, ByteSizeUnit.KIBIBYTES));
+
+        assertEquals(ByteSize.from("18GB"), new ByteSize(18, ByteSizeUnit.GIGABYTES));
+        assertEquals(ByteSize.from("18G"), new ByteSize(18, ByteSizeUnit.GIBIBYTES));
+        assertEquals(ByteSize.from("18GiB"), new ByteSize(18, ByteSizeUnit.GIBIBYTES));
     }
 }

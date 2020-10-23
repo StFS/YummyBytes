@@ -135,6 +135,52 @@ public class ByteSize {
         return new ByteSize(bytes.divide(unit.getFactor()), unit);
     }
 
+    /**
+     * Create a new {@link ByteSize} from a string representation. It supports various common formats such as:
+     * <ul>
+     *     <li>"1 megabyte"</li>
+     *     <li>"1 MB"</li>
+     *     <li>"1MB</li>
+     *     <li>"1M" - (equals "1 mebibyte")</li>
+     * </ul>
+     *
+     * @param input the string representing the byte size to be created
+     * @return a {@link ByteSize} representing the string provided
+     *
+     * @see ByteSizeUnit#parse(String)
+     */
+    public static ByteSize from(String input) {
+        // Assume a numeric part and a unit part
+        String[] parts = splitIntoDigitsAndLettersParts(input);
+
+        String number = parts[0];
+        String unit = parts[1];
+
+        BigDecimal bdValue = new BigDecimal(number);
+        ByteSizeUnit bsuUnit = ByteSizeUnit.parse(unit);
+
+        if (bsuUnit == null) {
+            throw new IllegalArgumentException("Invalid unit string: '" + unit + "'");
+        }
+
+        return new ByteSize(bdValue, bsuUnit);
+    }
+
+    private static String[] splitIntoDigitsAndLettersParts(String input) {
+        // ATTN: String.trim() may not trim all UTF-8 whitespace characters properly.
+        // For more information, see:
+        // https://github.com/typesafehub/config/blob/v1.3.0/config/src/main/java/com/typesafe/config/impl/ConfigImplUtil.java#L118-L164
+
+        int i = input.length() - 1;
+        while (i >= 0) {
+            char c = input.charAt(i);
+            if (!Character.isLetter(c))
+                break;
+            i -= 1;
+        }
+        return new String[]{input.substring(0, i + 1).trim(), input.substring(i + 1).trim()};
+    }
+
     @Override
     public String toString() {
         return value.toString() + " " + unit.toStringShortForm();
