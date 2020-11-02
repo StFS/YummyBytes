@@ -4,8 +4,8 @@
 ![license](https://img.shields.io/github/license/StFS/YummyBytes)
 
 
-YummyBytes is a tiny Java library to convert between various byte size 
-units. 
+YummyBytes is a tiny Java library with no external dependencies to convert 
+between various byte size units.
 
 It can also handle converting string representations of byte sizes such
 as "1 megabyte" or "3Gb" into representative Java objects.
