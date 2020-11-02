@@ -1,15 +1,20 @@
 # YummyBytes
 
-YummyBytes is a simple Java library to convert between various byte size 
-units.
+[![Build Status](https://img.shields.io/github/workflow/status/StFS/YummyBytes/build)](https://github.com/StFS/YummyBytes/actions)
+![license](https://img.shields.io/github/license/StFS/YummyBytes)
+
+
+YummyBytes is a tiny Java library to convert between various byte size 
+units. 
 
 It can also handle converting string representations of byte sizes such
 as "1 megabyte" or "3Gb" into representative Java objects.
 
 The library can handle both SI and IEC units.
 
-## Example Code
+### Example
 
+The functionality of YummyBytes is best explained with code:
 ```java
         // Create a ByteSize
         ByteSize gigabytes = new ByteSize(42, ByteSizeUnit.GIGABYTES);
@@ -35,4 +40,3 @@ The library can handle both SI and IEC units.
         System.out.println(ByteSize.from("2MB")); // "2 MB"
         System.out.println(ByteSize.from("2M")); // "2 MiB"
 ```
-    

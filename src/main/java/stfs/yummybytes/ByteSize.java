@@ -132,6 +132,7 @@ public class ByteSize {
      */
     public ByteSize convertTo(ByteSizeUnit unit) {
         BigDecimal bytes = this.value.multiply(this.unit.getFactor()).setScale(0, RoundingMode.CEILING);
+        //noinspection BigDecimalMethodWithoutRoundingCalled
         return new ByteSize(bytes.divide(unit.getFactor()), unit);
     }
 
@@ -184,6 +185,10 @@ public class ByteSize {
     @Override
     public String toString() {
         return value.toString() + " " + unit.toStringShortForm();
+    }
+
+    public String toStringLongForm() {
+        return value.toString() + " " + unit.toStringLongForm();
     }
 
     @Override

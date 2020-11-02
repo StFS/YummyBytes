@@ -107,4 +107,10 @@ public class UTestByteSize {
         assertEquals(ByteSize.from("18G"), new ByteSize(18, ByteSizeUnit.GIBIBYTES));
         assertEquals(ByteSize.from("18GiB"), new ByteSize(18, ByteSizeUnit.GIBIBYTES));
     }
+
+    @Test
+    public void testToString() {
+        assertEquals("18 GB", new ByteSize(18, ByteSizeUnit.GIGABYTES).toString());
+        assertEquals("18 gigabytes", new ByteSize(18, ByteSizeUnit.GIGABYTES).toStringLongForm());
+    }
 }
